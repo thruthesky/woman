@@ -1,0 +1,35 @@
+<header class="fixed-top header-box bg-grey">
+    <div class="logo h-50">
+        <div class="d-flex justify-content-between pointers">
+            <div (click)=" showPanel = !showPanel "  class="p-2"><i class="fa fa-bars fa-inverse"></i></div>
+            <div class="white p-2">여자앱</div>
+            <div><i class="p-2 fa fa-share fa-inverse"></i></div>
+        </div>
+    </div>
+    <div class="menu d-flex justify-content-center h-50 bg-lightgrey pointers">
+        <div class="p-2">전체보기</div>
+        <div class="p-2">여자들의 관심사</div>
+        <div class="p-2">패션 스타일</div>
+    </div>
+</header>
+
+<section class="p-absolute bg-grey white" [class.d-none]=" !showPanel ">
+    <nav>
+        <ul class="panel">
+            <li>내가 찜한 게시물</li>
+            <li>책 읽는 여자</li>
+            <li>연애성장백서</li>
+            <li>웨딩스토리</li>
+            <li>헤어스타일</li>
+            <li>핫플레이스</li>
+            <li>네일,패디큐어</li>
+            <li>메이크업</li>
+            <li>다이어트 꿀팁</li>
+            <li>패션스타일</li>
+            <li>뷰티팁</li>
+            <li>오류, 건의, 신고</li>
+            <li>앱 공유하기</li>
+            <li>W 소장하고 싶은 여자들의 모든 것</li>
+        </ul>
+    </nav>
+</section>

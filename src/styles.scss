@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+@import './app/enhancer/scss/enhancer';
+
+body {
+    margin-top: $header-height;
+}
+header {
+    .menu {
+        border-bottom: 2px solid grey;
+    }
+}
+
