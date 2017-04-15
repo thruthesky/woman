@@ -1,0 +1,6 @@
+[submodule "src/app/enhancer"]
+	path = src/app/enhancer
+	url = https://github.com/thruthesky/enhancer
+[submodule "src/app/angular-backend"]
+	path = src/app/angular-backend
+	url = https://github.com/thruthesky/angular-backend
