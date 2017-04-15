@@ -1,6 +1,3 @@
-
-
-
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -13,11 +10,9 @@ import {
 } from './../../../angular-backend/config';
 import { PageScroll } from './../../services/page-scroll';
 @Component({
-    selector: 'article-list-component',
-    templateUrl: './article-list.html'
+  templateUrl: './forum.html'
 })
-export class ArticleListComponent {
-  
+export class ForumPage {
   
   post_config_id: string = null;
   
@@ -44,14 +39,12 @@ export class ArticleListComponent {
   ngOnInit() {
 
     this.activated.params.subscribe( params => {
-        console.log('param subs:', params);
-        this.reset();
-        if ( params['post_config_id'] !== void 0 ) { /// 게시판인가? 메인 페이지 인가 구별.
-            this.post_config_id = params['post_config_id'];
-        }
+      if ( params['post_config_id'] !== void 0 ) {
+          this.reset();
+        this.post_config_id = params['post_config_id'];
         this.load();
+      }
     });
-
 
 
     this.watch = this.pageScroll.watch( 'body', 350 ).subscribe( e => this.load() );

@@ -1,94 +1,56 @@
-Article list
-<h2>article list html data will be displayed here</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
-<h2>article list html</h2>
+
+  <div *ngIf=" ! lists.length " class="alert alert-success">
+    <i class="fa fa-spin fa-spinner"></i>
+    Loading <b>{{ post_config_id }}</b> forum ...
+  </div>
+  
+  
+  <div *ngIf=" lists[0] && lists[0]?.data?.configs "
+    class="alert alert-info border-0 mb-2">
+    <div>{{ lists[0].data.configs[0].name }} / {{ lists[0].data.configs[0].description }}</div>
+  </div>
+
+
+    <div class="d-flex justify-content-end">
+        <button *ngIf=" ! showPostForm " (click)=" showPostForm = true "
+            class="btn btn-secondary mb-2 border-0 bg-lightgrey">Create New Post</button>
+    </div>
+
+    <post-form-basic-component
+    *ngIf=" showPostForm "
+    [post_config_id] = " post_config_id "
+    [option] = " {
+        hideForumID: true
+    } "
+    [post] = " postPostForm "
+    (create) = " lists[0].data.posts.unshift( $event ); showPostForm = false "
+    (edit) = " showPostForm = false "
+    (cancel) = " showPostForm = false "
+    ></post-form-basic-component>
+
+    <section class="posts">
+        <ng-container *ngIf=" lists.length ">
+            <ng-container *ngFor=" let list of lists ">
+                <article *ngFor=" let post of list.data.posts " class="mb-1">
+                    <post-view-basic-component [post]=" post " [list]=" list "></post-view-basic-component>
+                    <ng-container *ngIf=" post.comments ">
+                        <comment-view-basic-component *ngFor=" let comment of post.comments "
+                            [list] = " list "
+                            [post] = " post "
+                            [comment] = " comment ">
+                        </comment-view-basic-component>
+                    </ng-container>
+                </article>
+            </ng-container>
+        </ng-container>
+    </section>
+
+
+    <div class="no-more-posts alert alert-info" *ngIf=" inLoading ">
+       <i class="fa fa-spinner fa-spin"></i>  more posts ...
+    </div>
+
+
+    <div class="no-more-posts alert alert-info" *ngIf=" noMorePosts ">
+        No more posts...
+    </div>

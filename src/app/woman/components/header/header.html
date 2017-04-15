@@ -2,18 +2,18 @@
     <div class="logo h-50">
         <div class="d-flex justify-content-between pointers">
             <div (click)=" showPanel = !showPanel "  class="p-2"><i class="fa fa-bars fa-inverse"></i></div>
-            <div class="white p-2">여자앱</div>
+            <div class="white p-2" routerLink="/">여자앱</div>
             <div><i class="p-2 fa fa-share fa-inverse"></i></div>
         </div>
     </div>
     <div class="menu d-flex justify-content-center h-50 bg-lightgrey pointers">
-        <div class="p-2">전체보기</div>
-        <div class="p-2">여자들의 관심사</div>
-        <div class="p-2">패션 스타일</div>
+        <div class="p-2" routerLink="/">전체보기</div>
+        <div class="p-2" routerLink="/forum/interest">여자들의 관심사</div>
+        <div class="p-2" routerLink="/forum/fashion-style">패션 스타일</div>
     </div>
 </header>
 
-<section class="p-absolute bg-grey white" [class.d-none]=" !showPanel ">
+<section class="p-absolute bg-grey white z-index-high" [class.d-none]=" !showPanel ">
     <nav>
         <ul class="panel">
             <li>내가 찜한 게시물</li>
@@ -30,6 +30,7 @@
             <li>오류, 건의, 신고</li>
             <li>앱 공유하기</li>
             <li>W 소장하고 싶은 여자들의 모든 것</li>
+            <li routerLink="/admin">관리자</li>
         </ul>
     </nav>
 </section>
