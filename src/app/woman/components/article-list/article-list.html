@@ -11,35 +11,43 @@
   </div>
 
 
-    <div class="d-flex justify-content-end">
+    <div *ngIf="postData.info.id == 'admin' " class="d-flex justify-content-end">
         <button *ngIf=" ! showPostForm " (click)=" showPostForm = true "
             class="btn btn-secondary mb-2 border-0 bg-lightgrey">Create New Post</button>
     </div>
 
     <post-form-basic-component
-    *ngIf=" showPostForm "
-    [post_config_id] = " post_config_id "
-    [option] = " {
-        hideForumID: true
-    } "
-    [post] = " postPostForm "
-    (create) = " lists[0].data.posts.unshift( $event ); showPostForm = false "
-    (edit) = " showPostForm = false "
-    (cancel) = " showPostForm = false "
+        *ngIf=" showPostForm "
+        [post_config_id] = " post_config_id "
+        [option] = " {
+            showForumID: false,
+            showTitle: true,
+            showContent: false,
+            showLink: true
+        } "
+        [post] = " postPostForm "
+        (create) = " lists[0].data.posts.unshift( $event ); showPostForm = false "
+        (edit) = " showPostForm = false "
+        (cancel) = " showPostForm = false "
     ></post-form-basic-component>
 
     <section class="posts">
         <ng-container *ngIf=" lists.length ">
             <ng-container *ngFor=" let list of lists ">
                 <article *ngFor=" let post of list.data.posts " class="mb-1">
-                    <post-view-basic-component [post]=" post " [list]=" list "></post-view-basic-component>
-                    <ng-container *ngIf=" post.comments ">
-                        <comment-view-basic-component *ngFor=" let comment of post.comments "
-                            [list] = " list "
-                            [post] = " post "
-                            [comment] = " comment ">
-                        </comment-view-basic-component>
-                    </ng-container>
+                    
+<!-- Post View -->
+<div class="card w-50 float-left border-0 pointer">
+    <img class="card-img p-1" src="{{
+        post.first_image_idx && post.first_image_idx != '0' ? postData.fileUrl( post.first_image_idx ) + '&crop=160x100x80' : 'assets/img/grey.jpg'
+    }}" style="min-height: 60px;">
+    <div class="card-img-overlay p-1 d-flex">
+        <h4 class="card-title w-100 m-0 align-self-end" style="background: rgba(255, 255, 255, .4);">{{ post.title }}</h4>
+    </div>
+</div>
+<!-- EO Post View -->
+  
+
                 </article>
             </ng-container>
         </ng-container>

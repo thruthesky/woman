@@ -31,6 +31,9 @@
             <li>앱 공유하기</li>
             <li>W 소장하고 싶은 여자들의 모든 것</li>
             <li routerLink="/admin">관리자</li>
+            <li *ngIf=" ! user.logged " routerLink="/login">로그인</li>
+            <li *ngIf=" user.logged " routerLink="/password-change">비밀번호 변경</li>
+            <li *ngIf=" user.logged " (click)="onClickLogout()">로그아웃</li>
         </ul>
     </nav>
 </section>

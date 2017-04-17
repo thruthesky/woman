@@ -1,12 +1,11 @@
-
-
-
 import { Component } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   PostData,
   _LIST,
-  _POST_LIST_RESPONSE
+  _POST_LIST_RESPONSE,
+  _POST
 } from './../../../angular-backend/angular-backend';
 import {
     NO_OF_ITEMS_PER_PAGE
@@ -24,8 +23,6 @@ export class ArticleListComponent {
   lists: Array<_POST_LIST_RESPONSE> = [];
 
   postListResponse: _POST_LIST_RESPONSE = null;
-
-
     showPostForm: boolean = false;
     inLoading = false;
     noMorePosts = false;
@@ -33,10 +30,11 @@ export class ArticleListComponent {
     watch;
 
   constructor(
-    private activated: ActivatedRoute,
-    private pageScroll: PageScroll,
-    private postData: PostData,
-    private router: Router )
+      private domSanitizer: DomSanitizer,
+        private activated: ActivatedRoute,
+        private pageScroll: PageScroll,
+        public postData: PostData,
+        private router: Router )
   {
 
   }
@@ -86,11 +84,11 @@ export class ArticleListComponent {
       console.log("loading page: ", this.page);
 
         let req: _LIST = {
-            where: 'parent_idx=? AND first_image_idx>?',
-            bind: '0,0',
+            where: 'parent_idx=?',
+            bind: '0',
             order: 'idx desc',
             page: this.page,
-            limit: NO_OF_ITEMS_PER_PAGE,
+            limit: 16,
             extra: {
                 post_config_id: this.post_config_id,
                 user: true,
@@ -103,7 +101,19 @@ export class ArticleListComponent {
         this.postData.list( req ).subscribe((res: _POST_LIST_RESPONSE ) => {
             console.log('post list: ', res);
             this.inLoading = false;
+
+
+            /// pre process
+
+            res.data.posts.map( (post: _POST) => {
+                post.title = post.title.substr(0, 5);
+            });
+
+            // eo
+
             this.lists.push( res );
+
+
             if ( res.data.posts.length == 0 ) this.noMorePosts = true;
             else {
             }
@@ -116,5 +126,12 @@ export class ArticleListComponent {
         });
     }
 
+
+    public sanitize( obj ) : string {
+        if ( obj === void 0 || obj['content'] === void 0 || ! obj['content'] ) return '';
+        let c = obj['content'].replace(/\n/g, "<br>");
+        return this.domSanitizer.bypassSecurityTrustHtml( c ) as string;
+        
+    }
 
 }
