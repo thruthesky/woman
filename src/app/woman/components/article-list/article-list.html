@@ -5,7 +5,7 @@
   </div>
   
   
-  <div *ngIf=" lists[0] && lists[0]?.data?.configs "
+  <div *ngIf=" lists[0] && lists[0]?.data?.configs.length "
     class="alert alert-info border-0 mb-2">
     <div>{{ lists[0].data.configs[0].name }} / {{ lists[0].data.configs[0].description }}</div>
   </div>

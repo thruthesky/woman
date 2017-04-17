@@ -23,9 +23,9 @@ import { WomanModule } from './woman/woman.module';
     BrowserModule,
     FormsModule,
     HttpModule,
-    WomanModule,
     AngularBackend,
     AngularBackendAdmin,
+    WomanModule,
     RouterModule.forRoot([])
   ],
   providers: [],

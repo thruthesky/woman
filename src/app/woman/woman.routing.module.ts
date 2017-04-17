@@ -4,7 +4,8 @@ import { HomePage } from './pages/home/home';
 import { ForumPage } from './pages/forum/forum';
 const WomanRoutes: Routes = [
     { path: 'forum/:post_config_id', component: ForumPage },
-    { path: '', component: HomePage }
+    { path: '', component: HomePage, pathMatch: 'full' },
+    { path: '**', redirectTo: '/' }
 ];
 @NgModule({
     imports: [

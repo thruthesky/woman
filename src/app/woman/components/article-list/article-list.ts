@@ -52,8 +52,6 @@ export class ArticleListComponent {
         this.load();
     });
 
-
-
     this.watch = this.pageScroll.watch( 'body', 350 ).subscribe( e => this.load() );
 
   }
@@ -88,8 +86,8 @@ export class ArticleListComponent {
       console.log("loading page: ", this.page);
 
         let req: _LIST = {
-            where: 'parent_idx=?',
-            bind: '0',
+            where: 'parent_idx=? AND first_image_idx>?',
+            bind: '0,0',
             order: 'idx desc',
             page: this.page,
             limit: NO_OF_ITEMS_PER_PAGE,
@@ -110,7 +108,10 @@ export class ArticleListComponent {
             else {
             }
         }, err => {
-            if ( err['code']  == -40232 ) this.router.navigateByUrl('/');
+            if ( err['code']  == -40232 ) {
+                this.router.navigateByUrl('/');
+                alert('forum not exist');
+            }
             else this.reset();
         });
     }
