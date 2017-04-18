@@ -1,3 +1,4 @@
+<div class="article-list p-1">
 
   <div *ngIf=" ! lists.length " class="alert alert-success">
     <i class="fa fa-spin fa-spinner"></i>
@@ -5,15 +6,16 @@
   </div>
   
   
-  <div *ngIf=" lists[0] && lists[0]?.data?.configs.length "
-    class="alert alert-info border-0 mb-2">
+
+  <div *ngIf=" option?.showTitle == true && lists[0] && lists[0]?.data?.configs.length "
+    class="alert alert-info border-0 rounded-0 mb-2">
     <div>{{ lists[0].data.configs[0].name }} / {{ lists[0].data.configs[0].description }}</div>
   </div>
 
 
-    <div *ngIf="postData.info.id == 'admin' " class="d-flex justify-content-end">
+    <div *ngIf=" option?.showCreateButton == true && postData.info.id == 'admin' " class="d-flex justify-content-end">
         <button *ngIf=" ! showPostForm " (click)=" showPostForm = true "
-            class="btn btn-secondary mb-2 border-0 bg-lightgrey">Create New Post</button>
+            class="btn btn-secondary mb-0 border-0 bg-lightgrey">Create New Post</button>
     </div>
 
     <post-form-basic-component
@@ -35,18 +37,28 @@
         <ng-container *ngIf=" lists.length ">
             <ng-container *ngFor=" let list of lists ">
                 <article *ngFor=" let post of list.data.posts " class="mb-1">
-                    
+
 <!-- Post View -->
 <div class="card w-50 float-left border-0 pointer">
-    <img class="card-img p-1" src="{{
-        post.first_image_idx && post.first_image_idx != '0' ? postData.fileUrl( post.first_image_idx ) + '&crop=160x100x80' : 'assets/img/grey.jpg'
-    }}" style="min-height: 60px;">
-    <div class="card-img-overlay p-1 d-flex">
-        <h4 class="card-title w-100 m-0 align-self-end" style="background: rgba(255, 255, 255, .4);">{{ post.title }}</h4>
+    <a href="{{ post.link }}" target="_blank" class="">
+        <img class="card-img p-1 w-100" src="{{
+            post.first_image_idx && post.first_image_idx != '0' ? postData.fileUrl( post.first_image_idx ) + '&crop=240x160x80' : 'assets/img/grey.jpg'
+        }}" style="min-height: 60px;">
+
+        <div class="card-img-overlay p-1 d-flex">
+            <h4 class="card-title w-100 m-0 p-2 align-self-end fs-1" style="background: rgba(229, 235, 243, 0.9); color: #303331;">{{ post.title }}</h4>
+        </div>
+    </a>
+
+    <div class="favorite ptr p-2" [class.active]=" isFavorite( post ) " style="opacity: .8;" (click)="onClickFavorite(post)">
+        <span class="fa-stack fa-lg fs-1">
+            <i class="fa fa-circle fa-stack-2x white"></i>
+            <i class="fa fa-star fa-stack-1x grey"></i>
+        </span>
     </div>
+
 </div>
 <!-- EO Post View -->
-  
 
                 </article>
             </ng-container>
@@ -62,3 +74,4 @@
     <div class="no-more-posts alert alert-info" *ngIf=" noMorePosts ">
         No more posts...
     </div>
+</div>

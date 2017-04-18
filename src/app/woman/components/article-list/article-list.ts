@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+    Meta,
+    _META_CREATE, _META_CREATE_RESPONSE,
+    _META_LIST_RESPONSE,
+    _META_FIELDS,
+    _DELETE_RESPONSE,
   PostData,
   _LIST,
   _POST_LIST_RESPONSE,
@@ -17,8 +22,14 @@ import { PageScroll } from './../../services/page-scroll';
 })
 export class ArticleListComponent {
   
+  @Input() option = {
+      showTitle: false,
+      showCreateButton: false
+  };
+  
   
   post_config_id: string = null;
+
   
   lists: Array<_POST_LIST_RESPONSE> = [];
 
@@ -29,7 +40,11 @@ export class ArticleListComponent {
     page = 0;
     watch;
 
+
+    favorites = <Array<_META_FIELDS>>[];
+
   constructor(
+      private meta: Meta,
       private domSanitizer: DomSanitizer,
         private activated: ActivatedRoute,
         private pageScroll: PageScroll,
@@ -52,6 +67,7 @@ export class ArticleListComponent {
 
     this.watch = this.pageScroll.watch( 'body', 350 ).subscribe( e => this.load() );
 
+    this.getFavorites();
   }
 
     ngOnDestroy() {
@@ -106,7 +122,7 @@ export class ArticleListComponent {
             /// pre process
 
             res.data.posts.map( (post: _POST) => {
-                post.title = post.title.substr(0, 5);
+                post.title = post.title.substr(0, 12);
             });
 
             // eo
@@ -127,11 +143,63 @@ export class ArticleListComponent {
     }
 
 
-    public sanitize( obj ) : string {
+    sanitize( obj ) : string {
         if ( obj === void 0 || obj['content'] === void 0 || ! obj['content'] ) return '';
         let c = obj['content'].replace(/\n/g, "<br>");
         return this.domSanitizer.bypassSecurityTrustHtml( c ) as string;
         
     }
 
+
+    onClickFavorite( post: _POST ) {
+        console.log("onClickFavorite: ", post);
+
+        if ( this.isFavorite( post ) ) { // alredy favorite. delete it.
+            let f = this.findFavorite( post );
+            this.meta.delete( f.idx ).subscribe( (res: _DELETE_RESPONSE) => {
+                console.log('delete favorite: ', res);
+                this.favorites.splice( this.favorites.findIndex(m => m.idx == res.data.idx), 1);
+            }, err => {
+                this.meta.alert( err );
+            });
+        }
+        else {
+            let req: _META_CREATE = {
+                model: 'favorite',
+                model_idx: post.idx,
+                code: '' + post.idx
+            };
+            this.meta.create( req ).subscribe( (res: _META_CREATE_RESPONSE) =>{
+                console.log('meta create: ', res);
+                this.favorites.push( res.data.meta );
+            }, err => {
+                this.meta.alert( err );
+            });
+        }
+    }
+
+    getFavorites() {
+        let req: _LIST = {
+            where: 'model=?',
+            bind: 'favorite',
+            limit: 100
+        };
+        this.meta.list( req ).subscribe( (res: _META_LIST_RESPONSE) =>{
+            console.log("favorites: ", res);
+            if ( res.data && res.data.meta && res.data.meta.length ) {
+                this.favorites = res.data.meta;
+            }
+            else {
+                // this.favorites;
+            }
+        }, err => {
+            this.meta.alert( err );
+        })
+    }
+    isFavorite( post ) {
+        return this.favorites.findIndex( (m: _META_FIELDS) => m.model_idx == post.idx ) != -1;
+    }
+    findFavorite( post ) {
+        return this.favorites.find( (m: _META_FIELDS) => m.model_idx == post.idx );
+    }
 }

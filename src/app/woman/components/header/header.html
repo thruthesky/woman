@@ -1,9 +1,9 @@
-<header class="fixed-top header-box bg-grey">
-    <div class="logo h-50">
+<header class="fixed-top header-box bg-menu">
+    <div class="logo h-60 p-2">
         <div class="d-flex justify-content-between pointers">
-            <div (click)=" showPanel = !showPanel "  class="p-2"><i class="fa fa-bars fa-inverse"></i></div>
+            <div (click)=" showPanel = !showPanel "  class="p-2"><i class="fa fa-bars fa-inverse fs-130"></i></div>
             <div class="white p-2" routerLink="/">여자앱</div>
-            <div><i class="p-2 fa fa-share fa-inverse"></i></div>
+            <div><i class="p-2 fa fa-share fa-inverse fs-120"></i></div>
         </div>
     </div>
     <div class="menu d-flex justify-content-center h-50 bg-lightgrey pointers">
@@ -13,27 +13,20 @@
     </div>
 </header>
 
-<section class="p-absolute bg-grey white z-index-high" [class.d-none]=" !showPanel ">
+<section class="p-absolute bg-menu white z-index-high" [class.d-none]=" !showPanel ">
     <nav>
         <ul class="panel">
-            <li routerLink="/favorite">내가 찜한 게시물</li>
-            <li routerLink="/forum/book">책 읽는 여자</li>
-            <li>연애성장백서</li>
-            <li>웨딩스토리</li>
-            <li>헤어스타일</li>
-            <li>핫플레이스</li>
-            <li>네일,패디큐어</li>
-            <li>메이크업</li>
-            <li>다이어트 꿀팁</li>
-            <li>패션스타일</li>
-            <li>뷰티팁</li>
-            <li>오류, 건의, 신고</li>
-            <li>앱 공유하기</li>
-            <li>W 소장하고 싶은 여자들의 모든 것</li>
-            <li routerLink="/admin">관리자</li>
-            <li *ngIf=" ! user.logged " routerLink="/login">로그인</li>
-            <li *ngIf=" user.logged " routerLink="/password-change">비밀번호 변경</li>
-            <li *ngIf=" user.logged " (click)="onClickLogout()">로그아웃</li>
+            <li routerLink="/favorite"><i class="fa fa-bookmark"></i> 내가 찜한 게시물</li>
+            <li routerLink="/forum/book"><i class="fa fa-book"></i> 책 읽는 여자</li>
+            <li routerLink="/forum/love"><i class="fa fa-heart-o"></i> 연애성장백서</li>
+            <li routerLink="/forum/wedding"><i class="fa fa-venus-mars"></i> 웨딩스토리</li>
+            <li (click)="onClickReport()"><i class="fa fa-flag"></i> 오류, 건의, 신고</li>
+            <li (click)="onClickReport()"><i class="fa fa-share-alt"></i> 앱 공유하기</li>
+            <li><i class="fa fa-vk"></i> 소장하고 싶은 여자들의 모든 것</li>
+            <li routerLink="/admin"><i class="fa fa-gear"></i> 관리자</li>
+            <li *ngIf=" ! user.logged " routerLink="/login"><i class="fa fa-sign-in"></i> 로그인</li>
+            <li *ngIf=" user.logged " routerLink="/password-change"><i class="fa fa-key"></i> 비밀번호 변경</li>
+            <li *ngIf=" user.logged " (click)="onClickLogout()"><i class="fa fa-sign-out"></i> 로그아웃</li>
         </ul>
     </nav>
 </section>

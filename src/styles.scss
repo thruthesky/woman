@@ -1,12 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import './app/enhancer/scss/enhancer';
 
+
+$menu-background: #a2310f;
 body {
-    margin-top: $header-height;
+    margin-top: 96px;
 }
 header {
     .menu {
-        border-bottom: 2px solid grey;
+        border-bottom: 2px solid $menu-background;
     }
 }
 
+.favorite.active {
+    .fa-star {
+        color: orange!important;
+    }
+}
+
+.bg-menu {
+    background-color: $menu-background;
+}

@@ -8,8 +8,11 @@ import {
 })
 export class HeaderComponent {
     showPanel: boolean = false;
-    constructor( private user: User ) {}
+    constructor( public user: User ) {}
     onClickLogout() {
         this.user.logout();
+    }
+    onClickReport() {
+        alert("아직 지원하지 않는 기능입니다.");
     }
 }
